@@ -35,7 +35,7 @@ C:.
 
 1. Clone the repository
 ```
-git clone https://github.com/pallikavyasri1111/TermsSummarizer.git
+git clone https://github.com/yashwini-degavath/TermsSummarizer.git
 cd TermsSummarizer
 ```
 2. Install dependencies
@@ -87,7 +87,7 @@ Uploads and summarizes terms from a PDF document.
 
 📬 Contact
 
-Created by pallikavyasri1111 Feel free to fork, contribute, or raise issues on GitHub.
+Created by Yashwini Degavath Feel free to fork, contribute, or raise issues on GitHub.
 
 📄 License
 
