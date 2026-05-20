@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms Summarization App</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        textarea { width: 100%; height: 150px; }
+        #summary-result { white-space: pre-line; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Terms and Conditions Summarizer</h1>
+    
+    <form id="summarization-form">
+        <label>Select Input Type:</label>
+        <select id="input_type">
+            <option value="text">Text</option>
+            <option value="pdf">PDF</option>
+            <option value="url">URL</option>
+        </select>
+
+        <div id="text-input">
+            <textarea id="text" placeholder="Enter text..."></textarea>
+        </div>
+
+        <div id="pdf-input" style="display: none;">
+            <input type="file" id="pdf_file" accept=".pdf">
+        </div>
+
+        <div id="url-input" style="display: none;">
+            <input type="text" id="url" placeholder="Enter URL">
+        </div>
+
+        <button type="submit">Summarize</button>
+    </form>
+
+    <h2>Summary:</h2>
+    <pre id="summary-result"></pre>
+
+    <script>
+        document.getElementById("input_type").addEventListener("change", function() {
+            document.getElementById("text-input").style.display = "none";
+            document.getElementById("pdf-input").style.display = "none";
+            document.getElementById("url-input").style.display = "none";
+
+            let selected = this.value;
+            if (selected === "text") document.getElementById("text-input").style.display = "block";
+            if (selected === "pdf") document.getElementById("pdf-input").style.display = "block";
+            if (selected === "url") document.getElementById("url-input").style.display = "block";
+        });
+
+        document.getElementById("summarization-form").addEventListener("submit", async function(e) {
+            e.preventDefault();
+
+            let formData = new FormData();
+            formData.append("input_type", document.getElementById("input_type").value);
+
+            if (formData.get("input_type") === "text") {
+                formData.append("text_input", document.getElementById("text").value);
+            } else if (formData.get("input_type") === "pdf") {
+                formData.append("pdf_file", document.getElementById("pdf_file").files[0]);
+            } else if (formData.get("input_type") === "url") {
+                formData.append("url_input", document.getElementById("url").value);
+            }
+
+            let response = await fetch("/summarize", { method: "POST", body: formData });
+            let data = await response.json();
+            document.getElementById("summary-result").textContent = data.summary;
+        });
+    </script>
+</body>
+</html>
